@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX CRUD Example</title>
+  <!-- Add Bootstrap CSS and JavaScript -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="./ajax.js"></script>
+</head>
+<body>
+    <h1>AJAX CRUD Example</h1>
+    
+    <form id="post-form">
+        <label for="title">Title: </label>
+        <input type="text" id="title" required>
+        <label for="body">Body: </label>
+        <input type="text" id="body" required>
+        <button type="submit">Create Post</button>
+    </form>
+    
+    <table id="post-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="post-list">
+        </tbody>
+    </table>
+
+ 
+</body>
+</html>
