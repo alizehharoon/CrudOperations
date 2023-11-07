@@ -14,7 +14,7 @@ function getAllPosts() {
             for (var i = 0; i < data.length; i++) {
                 var rec = data[i];
                 coffee.append(
-                    `<div class="coffees"><h3>${rec.title}</h3><p>${rec.body}</p></div>`
+                    `<div class="coffees"><h3>${rec.title}</h3></div>`
                 );
             }
         }
@@ -29,7 +29,6 @@ function displayPosts(posts) {
             <tr>
                 <td>${post.id}</td>
                 <td>${post.title}</td>
-                <td>${post.body}</td>
                 <td>
                     <button onclick="editPost(${post.id})">Edit</button>
                     <button onclick="deletePost(${post.id})">Delete</button>
@@ -43,17 +42,17 @@ function displayPosts(posts) {
 $('#post-form').submit(function (event) {
     event.preventDefault();
     var title = $('#title').val();
-    var body = $('#body').val();
+  
 
     $.ajax({
         url: "//api.sampleapis.com/coffee/hot",
         method: 'POST',
         dataType: 'json',
-        data: { title: title, body: body },
+        data: { title: title },
         success: function () {
             getAllPosts();
             $('#title').val('');
-            $('#body').val('');
+           
         },
         error: function (error) {
             console.log(error);
@@ -69,17 +68,21 @@ function editPost(id) {
         return; 
     }
 
-    var newBody = prompt("Enter the new body:");
-    if (newBody === null || newBody === "") {
-        return; 
-    }
+   
 
     $.ajax({
-        url: "//api.sampleapis.com/coffee/hot" + id,
-        method: 'PUT', 
-        data: { title: newTitle },
+        url: `//api.sampleapis.com/coffee/hot/${id}`,
+        method: 'PUT',
+        dataType: 'json',
+        data: { title: newTitle},
         success: function () {
-            getAllPosts();
+            
+            $("#post-list tr").each(function () {
+                if ($(this).find("td:first").text() === id.toString()) {
+                    $(this).find("td:nth-child(2)").text(newTitle); 
+                  
+                }
+            });
         },
         error: function (error) {
             console.log(error);
@@ -90,13 +93,20 @@ function editPost(id) {
 function deletePost(id) {
     if (confirm("Are you sure you want to delete this post?")) {
         $.ajax({
-            url: "//api.sampleapis.com/coffee/hot" + id,
+            url: `//api.sampleapis.com/coffee/hot/${id}`,
             method: 'DELETE',
             success: function () {
-                getAllPosts();
+                alert(`Post ${id} has been deleted.`);
+               
+                $("#post-list tr").each(function () {
+                    if ($(this).find("td:first").text() === id.toString()) {
+                        $(this).remove();
+                    }
+                });
             },
             error: function (error) {
                 console.log(error);
+                alert(`Failed to delete post ${id}.`);
             }
         });
     }
